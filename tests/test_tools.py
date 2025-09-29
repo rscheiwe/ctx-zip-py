@@ -5,9 +5,9 @@ import json
 
 import pytest
 
-from ctxzip.tools import read_file, grep_and_search_file, ReadFileOptions, GrepAndSearchFileOptions
-from ctxzip.adapters import FileStorageAdapter, StorageWriteParams
-from ctxzip.storage import register_known_key, clear_known_keys
+from ctxzippy.tools import read_file, grep_and_search_file, ReadFileOptions, GrepAndSearchFileOptions
+from ctxzippy.adapters import FileStorageAdapter, StorageWriteParams
+from ctxzippy.storage import register_known_key, clear_known_keys
 
 
 class TestReadFileTool:
@@ -16,7 +16,7 @@ class TestReadFileTool:
     def setup_method(self):
         """Set up test fixtures."""
         clear_known_keys()
-        self.temp_dir = tempfile.mkdtemp(prefix="ctxzip_tools_test_")
+        self.temp_dir = tempfile.mkdtemp(prefix="ctxzippy_tools_test_")
         self.adapter = FileStorageAdapter(base_dir=self.temp_dir)
 
         # Write a test file
@@ -88,7 +88,7 @@ class TestGrepAndSearchFileTool:
     def setup_method(self):
         """Set up test fixtures."""
         clear_known_keys()
-        self.temp_dir = tempfile.mkdtemp(prefix="ctxzip_grep_test_")
+        self.temp_dir = tempfile.mkdtemp(prefix="ctxzippy_grep_test_")
         self.adapter = FileStorageAdapter(base_dir=self.temp_dir)
 
         # Write test files
@@ -203,7 +203,7 @@ class TestKnownKeys:
 
     def test_register_and_check_keys(self):
         """Test registering and checking known keys."""
-        from ctxzip.storage import register_known_key, is_known_key, clear_known_keys
+        from ctxzippy.storage import register_known_key, is_known_key, clear_known_keys
 
         clear_known_keys()
 

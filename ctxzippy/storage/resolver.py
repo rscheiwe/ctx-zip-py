@@ -35,7 +35,7 @@ def create_storage_adapter(
     if uri_or_adapter is None:
         import tempfile
 
-        temp_dir = tempfile.mkdtemp(prefix="ctxzip_")
+        temp_dir = tempfile.mkdtemp(prefix="ctxzippy_")
         return FileStorageAdapter(base_dir=temp_dir)
 
     # Parse URI and create appropriate adapter

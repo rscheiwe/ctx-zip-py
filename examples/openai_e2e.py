@@ -3,7 +3,7 @@
 End-to-end example using OpenAI Chat Completions API with ctx-zip for tool result compaction.
 
 Requirements:
-    pip install openai ctxzip
+    pip install openai ctxzippy
     export OPENAI_API_KEY="your-key-here"
 """
 
@@ -14,8 +14,8 @@ from typing import List, Dict, Any
 from openai import OpenAI
 
 # Import ctx-zip
-from ctxzip import compact_messages, CompactOptions
-from ctxzip.tools import read_file, grep_and_search_file
+from ctxzippy import compact_messages, CompactOptions
+from ctxzippy.tools import read_file, grep_and_search_file
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -353,12 +353,12 @@ async def main():
             print(f"\n🔍 Found stored key: {storage_key}")
 
             # First, we need to register this key as known
-            from ctxzip.storage import register_known_key
+            from ctxzippy.storage import register_known_key
 
             register_known_key("file:///tmp/openai-ctx-storage", storage_key)
 
             # Read the file back
-            from ctxzip.tools import ReadFileOptions
+            from ctxzippy.tools import ReadFileOptions
 
             read_options = ReadFileOptions(storage="file:///tmp/openai-ctx-storage")
             file_content = read_file(storage_key, read_options)
@@ -367,7 +367,7 @@ async def main():
             print(file_content["content"][:500] + "...")
 
             # Search for specific patterns
-            from ctxzip.tools import GrepAndSearchFileOptions
+            from ctxzippy.tools import GrepAndSearchFileOptions
 
             grep_options = GrepAndSearchFileOptions(storage="file:///tmp/openai-ctx-storage")
             search_results = grep_and_search_file(

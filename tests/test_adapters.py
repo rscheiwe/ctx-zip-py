@@ -6,12 +6,12 @@ from pathlib import Path
 
 import pytest
 
-from ctxzip.adapters import (
+from ctxzippy.adapters import (
     FileStorageAdapter,
     StorageWriteParams,
     StorageReadParams,
 )
-from ctxzip.adapters.filesystem import file_uri_to_options
+from ctxzippy.adapters.filesystem import file_uri_to_options
 
 
 class TestFileStorageAdapter:
@@ -19,7 +19,7 @@ class TestFileStorageAdapter:
 
     def setup_method(self):
         """Set up test fixtures."""
-        self.temp_dir = tempfile.mkdtemp(prefix="ctxzip_adapter_test_")
+        self.temp_dir = tempfile.mkdtemp(prefix="ctxzippy_adapter_test_")
         self.adapter = FileStorageAdapter(base_dir=self.temp_dir)
 
     def teardown_method(self):
@@ -131,7 +131,7 @@ class TestStorageAdapterProtocol:
 
     def test_filesystem_adapter_implements_protocol(self):
         """Test that FileStorageAdapter implements the StorageAdapter protocol."""
-        from ctxzip.adapters.base import StorageAdapter
+        from ctxzippy.adapters.base import StorageAdapter
 
         adapter = FileStorageAdapter(base_dir="/tmp")
 

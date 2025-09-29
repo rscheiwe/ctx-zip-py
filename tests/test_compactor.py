@@ -8,9 +8,9 @@ from typing import List, Dict, Any
 
 import pytest
 
-from ctxzip import compact_messages, CompactOptions
-from ctxzip.adapters import FileStorageAdapter
-from ctxzip.storage import clear_known_keys
+from ctxzippy import compact_messages, CompactOptions
+from ctxzippy.adapters import FileStorageAdapter
+from ctxzippy.storage import clear_known_keys
 
 
 # Helper to run async functions in tests
@@ -27,7 +27,7 @@ class TestCompactor:
         # Clear known keys before each test
         clear_known_keys()
         # Create a temporary directory for storage
-        self.temp_dir = tempfile.mkdtemp(prefix="ctxzip_test_")
+        self.temp_dir = tempfile.mkdtemp(prefix="ctxzippy_test_")
         self.storage_adapter = FileStorageAdapter(base_dir=self.temp_dir)
 
     def teardown_method(self):
@@ -252,7 +252,7 @@ class TestBoundaryDetection:
 
     def test_detect_window_entire_conversation(self):
         """Test window detection for entire conversation."""
-        from ctxzip.strategies.write_tool_results import detect_window_range
+        from ctxzippy.strategies.write_tool_results import detect_window_range
 
         messages = [
             {"role": "user", "content": "1"},
@@ -268,7 +268,7 @@ class TestBoundaryDetection:
 
     def test_detect_window_since_last_text(self):
         """Test window detection for since-last-assistant-or-user-text."""
-        from ctxzip.strategies.write_tool_results import detect_window_range
+        from ctxzippy.strategies.write_tool_results import detect_window_range
 
         messages = [
             {"role": "tool", "content": []},
@@ -284,7 +284,7 @@ class TestBoundaryDetection:
 
     def test_detect_window_first_n(self):
         """Test window detection for first-n-messages."""
-        from ctxzip.strategies.write_tool_results import detect_window_range
+        from ctxzippy.strategies.write_tool_results import detect_window_range
 
         messages = [
             {"role": "system", "content": "System"},
@@ -300,7 +300,7 @@ class TestBoundaryDetection:
 
     def test_message_has_text_content(self):
         """Test detection of messages with text content."""
-        from ctxzip.strategies.write_tool_results import message_has_text_content
+        from ctxzippy.strategies.write_tool_results import message_has_text_content
 
         # String content
         assert message_has_text_content({"content": "Hello"})

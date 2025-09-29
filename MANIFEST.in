@@ -4,7 +4,7 @@ include CHANGELOG.md
 include pyproject.toml
 include requirements*.txt
 
-recursive-include ctxzip *.py
+recursive-include ctxzippy *.py
 recursive-include tests *.py
 recursive-include examples *.py *.md *.txt
 

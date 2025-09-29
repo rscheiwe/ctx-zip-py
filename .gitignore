@@ -134,7 +134,7 @@ dmypy.json
 Thumbs.db
 
 # Test artifacts
-ctxzip_test_*/
-ctxzip_adapter_test_*/
-ctxzip_tools_test_*/
-ctxzip_grep_test_*/
+ctxzippy_test_*/
+ctxzippy_adapter_test_*/
+ctxzippy_tools_test_*/
+ctxzippy_grep_test_*/

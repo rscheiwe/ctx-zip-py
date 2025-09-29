@@ -16,17 +16,19 @@ This is a Python implementation of the [ctx-zip TypeScript library](https://gith
 ## Installation
 
 ```bash
-pip install ctxzip
+pip install ctxzippy
 ```
 
 For development:
+
 ```bash
-pip install ctxzip[dev]
+pip install ctxzippy[dev]
 ```
 
 For S3 support (coming soon):
+
 ```bash
-pip install ctxzip[s3]
+pip install ctxzippy[s3]
 ```
 
 ## Quick Start
@@ -35,7 +37,7 @@ pip install ctxzip[s3]
 
 ```python
 import asyncio
-from ctxzip import compact_messages, CompactOptions
+from ctxzippy import compact_messages, CompactOptions
 
 messages = [
     {"role": "user", "content": "Analyze this data"},
@@ -71,7 +73,7 @@ compacted = await compact_messages(messages, options)
 import json
 import asyncio
 from openai import OpenAI
-from ctxzip import compact_messages, CompactOptions
+from ctxzippy import compact_messages, CompactOptions
 
 client = OpenAI()
 
@@ -80,7 +82,7 @@ async def process_with_tools():
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Analyze our sales data"}
     ]
-    
+
     # Call OpenAI with tools
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -94,14 +96,14 @@ async def process_with_tools():
             }
         }]
     )
-    
+
     # Add assistant response with tool calls
     messages.append({
         "role": "assistant",
         "content": response.choices[0].message.content,
         "tool_calls": [...]  # Include tool_calls from response
     })
-    
+
     # Add tool results (simulate large response)
     large_sales_data = {"revenue": [{"month": i, "amount": 50000 * i} for i in range(1, 1000)]}
     messages.append({
@@ -112,19 +114,19 @@ async def process_with_tools():
             "output": {"type": "json", "value": large_sales_data}
         }]
     })
-    
+
     # Add assistant message to enable compaction
     messages.append({
         "role": "assistant",
         "content": "I've analyzed the sales data."
     })
-    
+
     # Compact before sending back to OpenAI
     compacted = await compact_messages(
         messages,
         CompactOptions(storage="file:///tmp/llm-storage")
     )
-    
+
     # Size reduction: ~500KB → ~1KB (99%+ reduction)
     # Continue conversation with compacted messages
     return compacted
@@ -138,7 +140,7 @@ asyncio.run(process_with_tools())
 For non-async contexts, use the synchronous wrapper:
 
 ```python
-from ctxzip import compact_messages_sync
+from ctxzippy import compact_messages_sync
 
 compacted = compact_messages_sync(messages, options)
 ```
@@ -148,6 +150,7 @@ compacted = compact_messages_sync(messages, options)
 Control which messages get compacted:
 
 ### Since Last Assistant or User Text (Default)
+
 Compact only tool results since the last conversational message:
 
 ```python
@@ -155,6 +158,7 @@ options = CompactOptions(boundary="since-last-assistant-or-user-text")
 ```
 
 ### Entire Conversation
+
 Compact all tool results in the entire history:
 
 ```python
@@ -162,6 +166,7 @@ options = CompactOptions(boundary="entire-conversation")
 ```
 
 ### Keep First N Messages
+
 Preserve system prompts and initial context:
 
 ```python
@@ -177,7 +182,7 @@ options = CompactOptions(
 Store files locally:
 
 ```python
-from ctxzip.adapters import FileStorageAdapter
+from ctxzippy.adapters import FileStorageAdapter
 
 adapter = FileStorageAdapter(
     base_dir="/path/to/storage",
@@ -192,21 +197,21 @@ options = CompactOptions(storage=adapter)
 Implement the `StorageAdapter` protocol:
 
 ```python
-from ctxzip.adapters import StorageAdapter, StorageWriteParams, StorageWriteResult
+from ctxzippy.adapters import StorageAdapter, StorageWriteParams, StorageWriteResult
 
 class MyCustomAdapter:
     def write(self, params: StorageWriteParams) -> StorageWriteResult:
         # Persist params.body with params.key
         return StorageWriteResult(key=params.key, url="custom://...")
-    
+
     def read_text(self, params: StorageReadParams) -> str:
         # Retrieve and return content
         pass
-    
+
     def resolve_key(self, name: str) -> str:
         # Apply any prefixing/namespacing
         return f"prefix/{name}"
-    
+
     def __str__(self) -> str:
         return "custom://my-storage"
 ```
@@ -218,7 +223,7 @@ Retrieve and search persisted content:
 ### Read File Tool
 
 ```python
-from ctxzip.tools import read_file
+from ctxzippy.tools import read_file
 
 # Read a previously stored file
 result = read_file(
@@ -231,7 +236,7 @@ print(result["content"])
 ### Grep and Search Tool
 
 ```python
-from ctxzip.tools import grep_and_search_file
+from ctxzippy.tools import grep_and_search_file
 
 # Search for patterns in stored content
 result = grep_and_search_file(
@@ -272,7 +277,7 @@ Specify which tools are readers (won't be re-persisted):
 options = CompactOptions(
     storage_reader_tool_names=[
         "readFile",
-        "grepAndSearchFile", 
+        "grepAndSearchFile",
         "myCustomReaderTool"
     ]
 )
@@ -283,10 +288,13 @@ options = CompactOptions(
 ### Core Functions
 
 #### `compact_messages(messages, options) -> List[Message]`
+
 Compact tool results in a message list by persisting to storage.
 
 #### `CompactOptions`
+
 Configuration for the compaction process:
+
 - `strategy`: Compaction strategy (default: "write-tool-results-to-storage")
 - `storage`: Storage destination (URI string or adapter instance)
 - `boundary`: Where to start compacting from
@@ -296,6 +304,7 @@ Configuration for the compaction process:
 ### Storage Adapters
 
 #### `StorageAdapter` Protocol
+
 - `write(params)`: Persist content
 - `read_text(params)`: Retrieve text content
 - `open_read_stream(params)`: Open a readable stream
@@ -303,14 +312,17 @@ Configuration for the compaction process:
 - `__str__()`: Human-readable identifier
 
 #### `FileStorageAdapter`
+
 Filesystem-based storage implementation.
 
 ### Reader Tools
 
 #### `read_file(key, options)`
+
 Read a previously stored file.
 
 #### `grep_and_search_file(key, pattern, flags, options)`
+
 Search for patterns in stored content.
 
 ## Testing
@@ -325,7 +337,7 @@ pip install -e .[dev]
 pytest
 
 # With coverage
-pytest --cov=ctxzip
+pytest --cov=ctxzippy
 ```
 
 ## Architecture
@@ -339,6 +351,7 @@ The library follows a clean separation of concerns:
 5. **Storage Utilities** (`storage/`): Key tracking, resolution, grep
 
 This design makes it easy to:
+
 - Add new storage backends
 - Implement custom compaction strategies
 - Extend with new reader tools
@@ -348,16 +361,16 @@ This design makes it easy to:
 
 This Python implementation maintains full feature parity with the TypeScript original:
 
-| Feature | TypeScript | Python |
-|---------|------------|--------|
-| Message Compaction | ✅ | ✅ |
-| Boundary Strategies | ✅ | ✅ |
-| Filesystem Adapter | ✅ | ✅ |
-| Reader Tools | ✅ | ✅ |
-| Key Tracking | ✅ | ✅ |
-| Custom Serialization | ✅ | ✅ |
-| Type Safety | ✅ | ✅ (via type hints) |
-| Async Support | ✅ | ✅ |
+| Feature              | TypeScript | Python              |
+| -------------------- | ---------- | ------------------- |
+| Message Compaction   | ✅         | ✅                  |
+| Boundary Strategies  | ✅         | ✅                  |
+| Filesystem Adapter   | ✅         | ✅                  |
+| Reader Tools         | ✅         | ✅                  |
+| Key Tracking         | ✅         | ✅                  |
+| Custom Serialization | ✅         | ✅                  |
+| Type Safety          | ✅         | ✅ (via type hints) |
+| Async Support        | ✅         | ✅                  |
 
 ## Contributing
 
