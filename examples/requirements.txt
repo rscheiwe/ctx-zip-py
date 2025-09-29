@@ -1,0 +1,3 @@
+# Requirements for running the examples
+openai>=1.0.0
+-e ..  # Install ctxzip in editable mode from parent directory

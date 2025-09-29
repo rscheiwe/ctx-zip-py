@@ -1,0 +1,4 @@
+# Core dependencies (none required for basic functionality)
+
+# Optional dependencies for development
+# Install with: pip install -r requirements-dev.txt
