@@ -29,10 +29,27 @@ export OPENAI_API_KEY="your-key-here"
 python openai_e2e.py
 ```
 
+### S3 Storage (`s3_example.py`)
+
+Examples of using AWS S3 for storage backend.
+
+**Features demonstrated:**
+- S3 adapter with explicit configuration
+- Using S3 URIs directly (s3://bucket/prefix)
+- S3-compatible services (MinIO, Wasabi)
+- Credential configuration options
+
+**Run it:**
+```bash
+# Ensure AWS credentials are configured
+pip install ctxzippy[s3]
+python s3_example.py
+```
+
 ### More Examples Coming Soon
 
 - Anthropic Claude integration
 - LangChain integration
 - Streaming responses
-- Custom storage adapters
+- Azure Blob storage
 - Batch processing

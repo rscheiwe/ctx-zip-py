@@ -25,7 +25,7 @@ For development:
 pip install ctxzippy[dev]
 ```
 
-For S3 support (coming soon):
+For S3 support:
 
 ```bash
 pip install ctxzippy[s3]
@@ -190,6 +190,48 @@ adapter = FileStorageAdapter(
 )
 
 options = CompactOptions(storage=adapter)
+```
+
+### S3 Adapter
+
+Store files in AWS S3 or S3-compatible services:
+
+```python
+from ctxzippy.adapters import S3StorageAdapter, S3StorageOptions
+
+adapter = S3StorageAdapter(
+    S3StorageOptions(
+        bucket="my-bucket",
+        prefix="ctx-storage/session-123",  # Optional subdirectory
+        region="us-west-2",  # Optional, uses default if not specified
+        # Optional explicit credentials (uses boto3 defaults if not provided)
+        aws_access_key_id="...",
+        aws_secret_access_key="...",
+    )
+)
+
+options = CompactOptions(storage=adapter)
+
+# Or use S3 URI directly
+options = CompactOptions(storage="s3://my-bucket/ctx-storage")
+```
+
+**Requirements:**
+- Install boto3: `pip install ctxzippy[s3]`
+- Configure AWS credentials (via environment, ~/.aws/credentials, or IAM role)
+- Bucket must exist and be accessible
+
+**S3-Compatible Services:**
+```python
+# For MinIO, Wasabi, or other S3-compatible services
+adapter = S3StorageAdapter(
+    S3StorageOptions(
+        bucket="my-bucket",
+        endpoint_url="https://s3.wasabisys.com",
+        aws_access_key_id="...",
+        aws_secret_access_key="...",
+    )
+)
 ```
 
 ### Creating Custom Adapters

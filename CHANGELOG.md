@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2024-01-XX
+## [Unreleased]
+
+### Added
+
+- S3 storage adapter with full AWS S3 support
+- Support for S3-compatible services (MinIO, Wasabi, etc.)
+- Comprehensive S3 adapter tests
+
+## [0.1.0] - 2025-09-29
 
 ### Added
 
@@ -31,7 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Coming Soon
 
-- S3 storage adapter
 - Blob storage adapters (Azure, GCS)
 - Streaming support for large files
 - Additional compaction strategies

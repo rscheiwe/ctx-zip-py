@@ -45,8 +45,17 @@ def create_storage_adapter(
     if parsed.scheme == "file":
         options = file_uri_to_options(uri)
         return FileStorageAdapter(**options)
-    elif parsed.scheme in ("blob", "s3"):
-        # Placeholder for future blob/S3 adapters
+    elif parsed.scheme == "s3":
+        try:
+            from ..adapters.s3 import S3StorageAdapter, s3_uri_to_options
+            options = s3_uri_to_options(uri)
+            return S3StorageAdapter(options)
+        except ImportError:
+            raise ImportError(
+                "S3 storage requires boto3. Install with: pip install ctxzippy[s3]"
+            )
+    elif parsed.scheme == "blob":
+        # Placeholder for future blob adapters
         raise NotImplementedError(
             f"Storage adapter for '{parsed.scheme}' not yet implemented. "
             f"Currently only 'file://' URIs are supported."
