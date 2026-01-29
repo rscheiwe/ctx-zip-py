@@ -1,5 +1,7 @@
 # ctx-zip Python
 
+![PyPI - Version](https://img.shields.io/pypi/v/ctxzippy)
+
 A Python library for compacting large tool-call results in conversation histories by persisting them to storage and replacing with lightweight references.
 
 This is a Python implementation of the [ctx-zip TypeScript library](https://github.com/karthikscale3/ctx-zip), providing the same functionality for Python-based AI applications.
@@ -217,11 +219,13 @@ options = CompactOptions(storage="s3://my-bucket/ctx-storage")
 ```
 
 **Requirements:**
+
 - Install boto3: `pip install ctxzippy[s3]`
 - Configure AWS credentials (via environment, ~/.aws/credentials, or IAM role)
 - Bucket must exist and be accessible
 
 **S3-Compatible Services:**
+
 ```python
 # For MinIO, Wasabi, or other S3-compatible services
 adapter = S3StorageAdapter(
